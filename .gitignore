@@ -1,0 +1,29 @@
+# 忽略 test 目录及其内容
+/test/
+
+# 忽略隐藏的排除目录（假设这些目录以 . 开头）
+/.*/
+
+# Maven 构建输出目录及相关文件
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE 配置文件和缓存目录
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.classpath
+.project
+
+# 其他常见忽略项
+HELP.md  # 假设这是一个文档文件，不需要忽略
+
+# 特定于项目的忽略项
+2025-06-19T21-28-52_813.dumpstream
+BlackHorseShoppingMall-0.0.1-SNAPSHOT.jar
+BlackHorseShoppingMall-0.0.1-SNAPSHOT.pom
+createdFiles.lst
+inputFiles.lst
+workspace.xml

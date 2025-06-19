@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+logging:
+  level:
+    xyz.sonyp.mapper: trace  # 跟踪 Mapper 接口代理过程
+    xyz.songyp: debug
+  pattern:
+    dateformat: HH:mm:ss
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 输出 SQL 日志

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>xyz.sonyp</groupId>
+	<artifactId>BlackHorseShoppingMall</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>BlackHorseShoppingMall</name>
+	<description>BlackHorseShoppingMall</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<lombok.version>1.18.32</lombok.version>
+		<surefire.version>3.1.0</surefire.version>
+		<junit-jupiter.version>5.13.1</junit-jupiter.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.3.0</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- 替换为Spring Boot 3.x专用版本 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+			<version>3.5.9</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- 自动清理构建产物，避免 class 污染 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.3.1</version>
+			</plugin>
+
+			<!-- 编译插件配置，支持 Lombok 和 preview 特性 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgs>
+						<arg>--enable-preview</arg>
+					</compilerArgs>
+					<!-- 显式声明Lombok注解处理器 -->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+			<!-- 测试插件，兼容 JUnit5 + 启用 preview 模式 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit-platform</artifactId>
+						<version>${surefire.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<argLine>--enable-preview -Djava.security.manager=allow</argLine>
+					<!-- <skipTests>true</skipTests> --> <!-- 可选：跳过测试 -->
+				</configuration>
+			</plugin>
+
+			<!-- Spring Boot 构建插件，兼容 preview 特性 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.5.0</version>
+				<configuration>
+					<excludes>
+						<!-- 排除Lombok依赖 -->
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+					<jvmArguments>--enable-preview</jvmArguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
