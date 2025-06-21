@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import xyz.sonyp.po.User;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 class UserMapperTest {
@@ -23,6 +24,27 @@ class UserMapperTest {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         userMapper.insert(user);
+    }
+    @Test
+    void testSelect() {
+        User user = userMapper.selectById(5L);
+        System.out.println(user);
+    }
+    @Test
+    void testSelects(){
+        List<User> users = userMapper.selectByIds(List.of(1L,2L,3L,4L));
+    }
+    @Test
+    void testUpdate() {
+        User user = new User();
+        user.setId(5L);
+        user.setUsername("彭嵩洋");
+        userMapper.updateById(user);
+    }
+    @Test
+    void testDelete() {
+        int name = userMapper.deleteById(5L);
+        System.out.println(name);
     }
 }
 
