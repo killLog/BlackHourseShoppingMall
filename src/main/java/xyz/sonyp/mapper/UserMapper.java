@@ -6,13 +6,13 @@ import xyz.sonyp.po.User;
 import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
-    void saveUser(@Param("user") User user);
+    void saveUser(User user);
 
-    void deleteUser(@Param("id") Long id);
+    void deleteUser(Long id);
 
-    void updateUser(@Param("user") User user);
+    void updateUser(User user);
 
-    User queryUserById(@Param("id") Long id);
+    User queryUserById(Long id);
 
     List<User> queryAllUser(List<Long> ids);
 }
