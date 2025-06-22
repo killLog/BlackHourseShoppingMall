@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.sonyp.mapper.UserMapper">
-
     <!-- 自定义插入用户 -->
     <insert id="saveUser" parameterType="xyz.sonyp.po.User">
         INSERT INTO `user` (
@@ -12,7 +11,6 @@
                    #{info}, #{balance}, #{status}
                );
     </insert>
-
     <!-- 自定义更新用户 -->
     <update id="updateUser" parameterType="xyz.sonyp.po.User">
         UPDATE `user`
@@ -27,17 +25,14 @@
         </set>
         WHERE `id` = #{id};
     </update>
-
     <!-- 删除用户：修正参数类型为 java.lang.Long -->
     <delete id="deleteUser" parameterType="java.lang.Long">
         DELETE FROM `user` WHERE `id` = #{id}
     </delete>
-
     <!-- 根据ID查询用户 -->
     <select id="queryUserById" resultType="xyz.sonyp.po.User">
         SELECT * FROM `user` WHERE `id` = #{id}
     </select>
-
     <!-- 根据ID列表批量查询用户：修正参数名称为 ids -->
     <select id="queryAllUser" resultType="xyz.sonyp.po.User">
         SELECT * FROM `user`
@@ -51,5 +46,15 @@
         </where>
         LIMIT 10
     </select>
+
+
+
+    <!--半自动化操作需要用到的自定义SQL🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬🐬-->
+    <update id="updateBalanceByIds">/*使用半自动化之后，这里就只用写前半部分了，where由MyBatisPlus写*/
+        UPDATE user SET balance = balance - #{amount} ${ew.customSqlSegment}
+    </update>
+
+
+
 
 </mapper>
