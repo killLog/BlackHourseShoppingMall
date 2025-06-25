@@ -1,0 +1,8 @@
+package xyz.sonyp.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import xyz.sonyp.po.User;
+
+public interface IUserService extends IService<User> {
+
+}
