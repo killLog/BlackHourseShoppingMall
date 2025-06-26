@@ -3,7 +3,8 @@ package xyz.sonyp.mapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import xyz.sonyp.po.User;
+import org.apache.ibatis.annotations.Update;
+import xyz.sonyp.domain.po.User;
 import java.util.List;
 
 public interface UserMapper extends BaseMapper<User> {
@@ -19,4 +20,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     //自定义SQL的mapper层方法
     void updateBalanceByIds(@Param("ew")LambdaQueryWrapper<User> wrapper,@Param("amount") int amount);
+
+    @Update("update user set balance = balance - #{money} where id = #{id}")
+    void deductBalance(Long id, Integer money);
 }

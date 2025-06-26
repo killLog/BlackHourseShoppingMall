@@ -1,4 +1,4 @@
-package xyz.sonyp.po;
+package xyz.sonyp.domain.po;
 
 import lombok.Data;
 import java.time.LocalDateTime;

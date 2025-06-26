@@ -3,7 +3,7 @@ package xyz.sonyp.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import xyz.sonyp.po.User;
+import xyz.sonyp.domain.po.User;
 import java.time.LocalDateTime;
 import java.util.List;
 //业务层接口继承IService 业务层实现类实现业务层接口然后再继承ServiceImpl CRUD更加方便了

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.sonyp.mapper.UserMapper">
     <!-- 自定义插入用户 -->
-    <insert id="saveUser" parameterType="xyz.sonyp.po.User">
+    <insert id="saveUser" parameterType="xyz.sonyp.domain.po.User">
         INSERT INTO `user` (
             `id`, `username`, `password`, `phone`, `info`, `balance`, `status`
         )
@@ -12,7 +12,7 @@
                );
     </insert>
     <!-- 自定义更新用户 -->
-    <update id="updateUser" parameterType="xyz.sonyp.po.User">
+    <update id="updateUser" parameterType="xyz.sonyp.domain.po.User">
         UPDATE `user`
         <set>
             <if test="username != null">`username` = #{username},</if>
@@ -30,11 +30,11 @@
         DELETE FROM `user` WHERE `id` = #{id}
     </delete>
     <!-- 根据ID查询用户 -->
-    <select id="queryUserById" resultType="xyz.sonyp.po.User">
+    <select id="queryUserById" resultType="xyz.sonyp.domain.po.User">
         SELECT * FROM `user` WHERE `id` = #{id}
     </select>
     <!-- 根据ID列表批量查询用户：修正参数名称为 ids -->
-    <select id="queryAllUser" resultType="xyz.sonyp.po.User">
+    <select id="queryAllUser" resultType="xyz.sonyp.domain.po.User">
         SELECT * FROM `user`
         <where>
             <if test="ids != null and !ids.isEmpty()">

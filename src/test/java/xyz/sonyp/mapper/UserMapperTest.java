@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import xyz.sonyp.po.User;
+import xyz.sonyp.domain.po.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
