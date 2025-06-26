@@ -21,18 +21,3 @@ mybatis-plus: # mabatisPlus更擅长的是 单表的增删改查
     db-config:
       id-type: assign_id # id为雪花算法生成（默认id为主键）
       update-strategy: not_null # 更新策略：只更新非空字段
-
-knife4j:
-    enable: true
-    openapi:
-      title: 用户管理接口文档
-      description: "用户接口文档"
-      email: 2032164545@qq.com
-      concat: songyp
-      url: xyz.songyp
-      group:
-        default:
-          group-name: default
-          api-rule: package
-          api-rule-resources:
-            - xyz.songyp.controller
