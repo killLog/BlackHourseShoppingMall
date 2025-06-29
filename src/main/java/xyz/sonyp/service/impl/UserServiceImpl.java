@@ -2,6 +2,7 @@ package xyz.sonyp.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.sonyp.mapper.UserMapper;
 import xyz.sonyp.domain.po.User;
 import xyz.sonyp.service.IUserService;
@@ -11,7 +12,15 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
+    /**
+     * 虽然加了 @Transactional，但它不是用来解决并发冲突的，而是为了：
+     * 保证当前操作作为一个整体提交或回滚
+     * 配合乐观锁使用，增强并发场景下的数据一致性
+     * @param id
+     * @param money
+     */
     @Override
+    @Transactional //事务注解，要么全部成功，要么全部失败回滚
     public void deductBalance(Long id, Integer money) {
         //1.查询用户
         User user = getById(id);
@@ -23,8 +32,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user.getBalance() < money){
             throw new RuntimeException("用户余额不足以扣减！");
         }
-        //4.扣减金额 update tb_user set balance = balance - ?
-        baseMapper.deductBalance(id,money);
+        //4.扣减金额 update tb_user set balance = balance - ? baseMapper.deductBalance(id,money);
+        int remainBalance = user.getBalance() - money;
+        // 使用乐观锁更新余额：只有当数据库中的余额仍等于查询出的原始值时才允许更新
+        // 目的是避免多线程下因并发操作导致余额计算错误或负数余额等问题
+        lambdaUpdate()
+                .set(User::getBalance, remainBalance)
+                .set(remainBalance == 0, User::getStatus, 2) // 若余额为0，则冻结账户
+                .eq(User::getId, id)                                      // 确保更新的是指定用户
+                .eq(User::getBalance, user.getBalance())                  // 乐观锁：确保余额未被其他线程修改
+                .update();                                                // 构建好了记得执行
     }
 
     /**
