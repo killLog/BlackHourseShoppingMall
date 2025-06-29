@@ -13,7 +13,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //1.查询用户
         User user = getById(id);
         //2.校验用户状态
-        if (user == null || user.getStatus() == 2){
+        if (user == null || user.getStatus() == null || user.getStatus() == 2){
             throw new RuntimeException("用户状态异常！");
         }
         //3.校验用户余额是否充足
