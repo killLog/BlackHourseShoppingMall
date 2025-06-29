@@ -13,7 +13,6 @@ import xyz.sonyp.domain.po.User;
 import xyz.sonyp.domain.query.UserQuery;
 import xyz.sonyp.domain.vo.UserVO;
 import xyz.sonyp.service.IUserService;
-
 import java.util.List;
 
 @RestController
@@ -56,7 +55,7 @@ public class UserController {
         return BeanUtil.copyToList(users, UserVO.class);
     }
 
-    //复杂业务接口1
+    //复杂业务接口1 复杂update使用lambdaUpdate
     @PutMapping("{id}/deduction/{money}")
     @Operation(summary = "根据id扣减用户余额接口")
     public void deductMoneyById(
@@ -66,7 +65,7 @@ public class UserController {
         userService.deductBalance(id,money);
     }
 
-    //复杂业务接口2 使用lambdaQuery
+    //复杂业务接口2 复杂select使用lambdaQuery
     /**
      * ModelAttribute注解 —— 表单与请求参数的“粘合剂”
      * <p>
