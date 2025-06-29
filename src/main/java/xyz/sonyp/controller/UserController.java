@@ -66,7 +66,7 @@ public class UserController {
         userService.deductBalance(id,money);
     }
 
-    //复杂业务接口2
+    //复杂业务接口2 使用lambdaQuery
     /**
      * ModelAttribute注解 —— 表单与请求参数的“粘合剂”
      * <p>
