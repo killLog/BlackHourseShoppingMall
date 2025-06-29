@@ -5,9 +5,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xyz.sonyp.domain.dto.UserFormDTO;
 import xyz.sonyp.domain.po.User;
+import xyz.sonyp.domain.query.UserQuery;
 import xyz.sonyp.domain.vo.UserVO;
 import xyz.sonyp.service.IUserService;
 
@@ -53,7 +56,7 @@ public class UserController {
         return BeanUtil.copyToList(users, UserVO.class);
     }
 
-    //复杂业务接口
+    //复杂业务接口1
     @PutMapping("{id}/deduction/{money}")
     @Operation(summary = "根据id扣减用户余额接口")
     public void deductMoneyById(
@@ -61,6 +64,33 @@ public class UserController {
             @Parameter(description = "要扣减的金额") @PathVariable Integer money
     ) {
         userService.deductBalance(id,money);
+    }
+
+    //复杂业务接口2
+    /**
+     * ModelAttribute注解 —— 表单与请求参数的“粘合剂”
+     * <p>
+     *     ModelAttribute注解 是 Spring MVC 中的一个核心注解，主要用于将 HTTP 请求中的参数（如 URL 查询参数、表单字段等）自动绑定到一个 Java 对象上
+     * <p/>
+     * Validated注解 —— 校验世界的守护者
+     * <p>
+     *     Validated注解 是 Spring 提供的一个注解，用于支持 在方法参数上进行对象级别的校验
+     * <p/>
+     * 总结：一句话记住它们
+     * ModelAttribute注解：负责把零散的请求参数拼成一个完整的对象
+     * Validated注解：负责确保这个对象里的数据是合法的
+     * 它们就像是一对默契的搭档：
+     * 👨‍💼 “模型装配工” + 🧑‍⚖️ “数据质检员”，共同守护着 Spring 接口的大门！
+     */
+    @GetMapping("/list")
+    @Operation(summary = "根据复杂条件查询用户接口")
+    public List<UserVO> queryUsers(
+            @ParameterObject // 关键注解，告诉 Swagger 展开这个对象
+            @Validated //加这个注解以及加@ModelAttribute才能将多个独立的请求参数封装到类里面
+            @ModelAttribute("query") UserQuery query
+    ) {
+        List<User> users = userService.queryUsers(query.getName(),query.getStatus(),query.getMinBalance(),query.getMaxBalance());
+        return BeanUtil.copyToList(users, UserVO.class);
     }
 
 }

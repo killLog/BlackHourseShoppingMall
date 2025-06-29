@@ -93,6 +93,13 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+
+		<!--手动添加以下依赖来确保 @ParameterObject（告诉 Swagger 展开这个对象） 能够被识别-->
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.2.9</version>
+		</dependency>
 	</dependencies>
 
 	<build>
