@@ -1,6 +1,6 @@
 spring:
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+  datasource: # url后面加的这个rewriteBatchedStatements=true即开启，开启后允许 JDBC 将多个插入/更新语句合并成一个批次发送，提高批量操作性能
+    url: jdbc:mysql://127.0.0.1:3306/mp?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
