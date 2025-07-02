@@ -2,6 +2,7 @@ package xyz.sonyp.domain.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import java.util.List;
 
 @Data
 @Schema(description = "用户VO实体")
@@ -21,4 +22,7 @@ public class UserVO {
 
     @Schema(description = "账户余额")
     private Integer balance;
+
+    @Schema(description = "用户的收货地址")
+    private List<AddressVO> addresses;
 }

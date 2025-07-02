@@ -41,11 +41,15 @@ public class UserController {
         userService.removeById(id);
     }
 
+    /**
+     * 改造该方法，使其返回的数据中包含用户的收货地址
+     * @param id
+     * @return UserVO
+     */
     @GetMapping("{id}")
     @Operation(summary = "根据id查询用户接口")
     public UserVO selectUser(@Parameter(description = "用户id") @PathVariable Long id) {
-        User user = userService.getById(id);
-        return BeanUtil.copyProperties(user, UserVO.class);
+        return userService.queryUserAndAddressById(id);
     }
 
     @GetMapping
