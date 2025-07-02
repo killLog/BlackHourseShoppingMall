@@ -70,6 +70,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                 .list();
     }
 
+    /**
+     * <p>根据用户ID查询用户信息及其地址列表，并封装为 UserVO 返回。</p>
+     *
+     * <p><strong>【为什么使用 Db.lambdaQuery(Address.class)？】</strong></p>
+     *
+     * <p>在本业务中，User 和 Address 是两个独立的实体，
+     * 分别由 UserService 和 AddressService 管理。
+     * 当我们需要在 UserService 中获取 Address 数据时，
+     * 若通过注入 IAddressService 来调用其方法，
+     * 而 AddressService 中又恰好注入了 UserService（例如地址业务中需要回查用户信息），
+     * 就会形成如下依赖链：</p>
+     *
+     * <p>UserService --> AddressService --> UserService</p>
+     *
+     * <p>此时 Spring 在初始化 Bean 时会出现循环依赖问题，抛出异常：
+     * "Requested bean is currently in creation: Is there an unresolvable circular reference?"</p>
+     *
+     * <p><strong>【解决方案】</strong></p>
+     *
+     * <p>使用 MyBatis-Plus 提供的 Db.lambdaQuery(Address.class) 工具类进行直接查询，
+     * 可避免注入 AddressService，从而打破循环依赖链，使程序正常运行。</p>
+     *
+     * <p><strong>【适用范围】</strong></p>
+     *
+     * <p>该方式适用于简单查询场景，不涉及复杂业务逻辑或事务管理。
+     * 若业务较复杂，建议通过合理设计 Service 依赖关系、
+     * 使用 @Lazy 注解或重构模块结构来解决。</p>
+     */
     @Override
     public UserVO queryUserAndAddressById(Long id) {
         //1.查询用户
