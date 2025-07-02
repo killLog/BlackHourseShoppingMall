@@ -52,11 +52,11 @@ public class UserController {
         return userService.queryUserAndAddressById(id);
     }
 
+    //优化了根据id批量查询用户接口（有点优雅，没细品）
     @GetMapping
     @Operation(summary = "根据id批量查询用户接口")
     public List<UserVO> selectUsers(@Parameter(description = "用户id集合") @RequestParam List<Long> ids) {
-        List<User> users = userService.listByIds(ids);
-        return BeanUtil.copyToList(users, UserVO.class);
+        return userService.queryUserAndAddressByIds(ids);
     }
 
     //复杂业务接口1  复杂update使用lambdaUpdate
